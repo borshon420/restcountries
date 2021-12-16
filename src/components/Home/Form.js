@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const Form = () => {
     const [name, setName] = useState("");
     const [country, setCountry] = useState([]);
+    const [weather, setWeather] = useState([]);
 
     
     const handleOnChange = e => {
@@ -23,6 +24,17 @@ const Form = () => {
     console.log(country[0].population)
     console.log(country[0].latlng)
     console.log(country[0].flags.svg)
+
+    // weather
+    const capitalWheather = () => {
+        // http://api.weatherstack.com/current?access_key=631e2470231ba0e2c1d7c84a0f848333&query=dhaka
+        fetch(`http://api.weatherstack.com/current?access_key=631e2470231ba0e2c1d7c84a0f848333&query=dhaka`)
+        .then(res => res.json())
+        .then(data => console.log(data))
+    }
+    
+    // console.log(weather)
+    
     return (
         <>
         <div>
@@ -40,6 +52,7 @@ const Form = () => {
                 <p>capital: {country[0].capital[0]} </p>
             <p>Population: {country[0].population} </p>
             <p>Latlang: {country[0].latlng[0]}</p>
+            <div><button onClick={capitalWheather}>Capital Weather</button></div>
             <img src={country[0].flags.svg} alt="" />
             </div>: <div></div>}
         </div>

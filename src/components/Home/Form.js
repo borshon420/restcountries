@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 const Form = () => {
-    const [name, setName] = useState("");
+    const [name, setName] = useState(null);
     const [country, setCountry] = useState([]);
-    const [weather, setWeather] = useState([]);
+    const [weather, setWeather] = useState();
 
     
     const handleOnChange = e => {
@@ -26,14 +26,18 @@ const Form = () => {
     console.log(country[0].flags.svg)
 
     // weather
+    const capital = country[0].capital[0];
+    const API_KEY = '09276fa6e73a3c0e88013b6416c64880';
     const capitalWheather = () => {
-        // http://api.weatherstack.com/current?access_key=631e2470231ba0e2c1d7c84a0f848333&query=dhaka
-        fetch(`http://api.weatherstack.com/current?access_key=631e2470231ba0e2c1d7c84a0f848333&query=dhaka`)
+        fetch(`http://api.weatherstack.com/current?access_key=${API_KEY}&query=${capital}`)
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => setWeather(data))
     }
-    
-    // console.log(weather)
+    console.log(weather)
+    console.log(weather.current.temperature)
+    console.log(weather.current.weather_icons[0])
+    console.log(weather.current.wind_speed)
+    console.log(weather.current.precip)
     
     return (
         <>
@@ -48,13 +52,20 @@ const Form = () => {
             </form>
         </div>
         <div>
-            {name?<div>
+            <div>
                 <p>capital: {country[0].capital[0]} </p>
             <p>Population: {country[0].population} </p>
             <p>Latlang: {country[0].latlng[0]}</p>
             <div><button onClick={capitalWheather}>Capital Weather</button></div>
             <img src={country[0].flags.svg} alt="" />
-            </div>: <div></div>}
+            </div>
+            {/* weather */}
+            <div>
+                <p>Temperature: {weather.current.temperature} </p>
+            <p>Wind Speed: {weather.current.wind_speed} </p>
+            <p>Percip: {weather.current.precip}</p>
+            <img src={weather.current.weather_icons[0]} alt="" />
+            </div>
         </div>
         </>
     );
